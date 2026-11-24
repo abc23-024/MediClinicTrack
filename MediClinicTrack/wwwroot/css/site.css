@@ -1,31 +1,155 @@
+/* ===== MediClinicTrack design tokens ===== */
+:root {
+  --primary: #2563EB;
+  --primary-hover: #1D4ED8;
+  --primary-active: #1E40AF;
+  --secondary: #0F172A;
+  --tertiary: #0D9488;        /* icons and decoration ONLY, fails as text */
+  --tertiary-text: #0F766E;   /* teal text (5.5:1 on white) */
+  --neutral: #475569;
+  --bg: #F8FAFF;             /* check against wireframe */
+  --surface: #FFFFFF;
+  --surface-tint: #E0EAFF;   /* check against wireframe */
+  --border: #64748B;         /* 3:1+ on white */
+  --danger: #B91C1C;
+  --focus: #1D4ED8;
+
+  /* Point Bootstrap at our tokens */
+  --bs-primary: #2563EB;
+  --bs-primary-rgb: 37, 99, 235;
+  --bs-danger: #B91C1C;
+  --bs-danger-rgb: 185, 28, 28;
+  --bs-body-color: #475569;
+  --bs-body-bg: #F8FAFF;
+  --bs-heading-color: #0F172A;
+  --bs-link-color: #2563EB;
+  --bs-link-hover-color: #1D4ED8;
+  --bs-body-font-family: "Lexend", system-ui, sans-serif;
+}
+
+/* ===== Base ===== */
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
+  font-size: 18px;
   position: relative;
   min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 60px;   /* from template: room for the footer */
+  line-height: 1.6;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+}
+
+/* ===== Focus: one visible ring for everything ===== */
+a:focus-visible,
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  --bs-btn-border-radius: 999px;
+  --bs-btn-font-weight: 600;
+  --bs-btn-padding-x: 1.5rem;
+  --bs-btn-padding-y: 0.75rem;
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--primary);
+  --bs-btn-border-color: var(--primary);
+  --bs-btn-hover-bg: var(--primary-hover);
+  --bs-btn-hover-border-color: var(--primary-hover);
+  --bs-btn-active-bg: var(--primary-active);
+  --bs-btn-active-border-color: var(--primary-active);
+  --bs-btn-disabled-bg: var(--primary);
+  --bs-btn-disabled-border-color: var(--primary);
+}
+
+.btn-secondary {
+  --bs-btn-color: var(--secondary);
+  --bs-btn-bg: var(--surface-tint);
+  --bs-btn-border-color: var(--surface-tint);
+  --bs-btn-hover-color: var(--secondary);
+  --bs-btn-hover-bg: #C7D7FE;
+  --bs-btn-hover-border-color: #C7D7FE;
+}
+
+/* ===== Form fields ===== */
+.form-control,
+.form-select,
+.form-check-input {
+  border-color: var(--border);
+}
+
+.form-control {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* From template: Identity pages use floating labels */
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* ===== Skip link ===== */
+.skip-link:focus {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2000;
+  background: var(--surface);
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+/* ===== Navbar ===== */
+.site-nav {
+  background: var(--surface);
+}
+
+.site-nav .navbar-brand {
+  font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.site-nav .nav-link {
+  color: var(--neutral);
+  font-weight: 600;
+}
+
+.site-nav .nav-link:hover {
+  color: var(--primary);
+}
+
+.site-nav .nav-link.active,
+.site-nav .nav-link[aria-current="page"] {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+/* ===== Footer ===== */
+.footer {
+  color: var(--neutral);
+  padding: 1rem 0;
 }
