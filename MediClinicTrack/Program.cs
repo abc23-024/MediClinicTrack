@@ -13,7 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // 2. Identity (ApplicationUser + roles, email confirmation off)
 builder.Services.AddDefaultIdentity<ApplicationUser>(o => o.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<LockoutSignInManager>();
 
 // US07 / US01 acceptance criteria: password, lockout and account rules
 builder.Services.Configure<IdentityOptions>(o =>
