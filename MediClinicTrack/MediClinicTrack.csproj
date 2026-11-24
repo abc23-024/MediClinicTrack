@@ -7,9 +7,6 @@
     <UserSecretsId>aspnet-MediClinicTrack-5ab41e07-a4a9-4f90-873e-2ea11697bb18</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
