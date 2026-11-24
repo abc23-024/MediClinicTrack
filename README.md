@@ -26,6 +26,7 @@ From the repository folder:
     dotnet run
 
 ## Run the tests
+From the repository folder:
 
     dotnet test
 
