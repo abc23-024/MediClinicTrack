@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediClinicTrack.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261126142238_AddPatientTable")]
+    [Migration("20261126144113_AddPatientTable")]
     partial class AddPatientTable
     {
         /// <inheritdoc />
@@ -107,23 +107,27 @@ namespace MediClinicTrack.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("IdNumber")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("IdType")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("MobileNumber")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.HasKey("Id");
 
@@ -277,7 +281,7 @@ namespace MediClinicTrack.Migrations
                     b.HasOne("MediClinicTrack.Data.ApplicationUser", "ApplicationUser")
                         .WithOne()
                         .HasForeignKey("MediClinicTrack.Models.Patient", "ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");

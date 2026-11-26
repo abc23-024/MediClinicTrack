@@ -25,7 +25,10 @@ namespace MediClinicTrack.Data
             builder.Entity<Patient>()
                 .HasOne(p => p.ApplicationUser)
                 .WithOne()
-                .HasForeignKey<Patient>(p => p.ApplicationUserId);
+                .HasForeignKey<Patient>(p => p.ApplicationUserId)
+                // Deleting a user must not silently delete their patient record (US08-3:
+                // accounts with history are deactivated, not deleted).
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
