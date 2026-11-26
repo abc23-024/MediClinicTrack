@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MediClinicTrack.Models; // Patient o koo
+using MediClinicTrack.Models;
 
 namespace MediClinicTrack.Data
 {
@@ -11,20 +11,17 @@ namespace MediClinicTrack.Data
         {
         }
 
-        
         public DbSet<Patient> Patients { get; set; }
 
-        //Patient table rules: IdType + IdNumber must be unique, one-to-one relationship with ApplicationUser
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            
+            // Your Patient Table Rules
             builder.Entity<Patient>()
                 .HasIndex(p => new { p.IdType, p.IdNumber })
                 .IsUnique();
 
-            // Rule: One-to-one relationship
             builder.Entity<Patient>()
                 .HasOne(p => p.ApplicationUser)
                 .WithOne()
