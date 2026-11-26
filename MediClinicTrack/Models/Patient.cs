@@ -9,18 +9,23 @@ namespace MediClinicTrack.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(200)]
         public string FullName { get; set; } = string.Empty;
 
         [Required]
+        [StringLength(20)]
         public string IdType { get; set; } = string.Empty;
 
         [Required]
+        [StringLength(50)]
         public string IdNumber { get; set; } = string.Empty;
 
+        // DateOnly maps to a MySQL DATE column, so no time or timezone can shift the day.
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
         [Phone]
+        [StringLength(20)]
         public string? MobileNumber { get; set; }
 
         // One-to-one relationship with ApplicationUser

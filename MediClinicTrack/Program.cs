@@ -14,7 +14,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDefaultIdentity<ApplicationUser>(o => o.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddSignInManager<LockoutSignInManager>();
+    .AddUserManager<AppUserManager>()
+    .AddSignInManager<AppSignInManager>()
+    .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>()
+    .AddPasswordValidator<CommonPasswordValidator>();   // US07-2
+
+// US06-5 / US07-3 / US08-2: re-check the user on every request, so a role change,
+// deactivation or logout takes effect at the next request instead of after 30 minutes.
+builder.Services.Configure<SecurityStampValidatorOptions>(o =>
+    o.ValidationInterval = TimeSpan.Zero);
 
 // US07 / US01 acceptance criteria: password, lockout and account rules
 builder.Services.Configure<IdentityOptions>(o =>
@@ -69,6 +77,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseMiddleware<MustChangePasswordMiddleware>();
 app.UseAuthorization();
 
 app.MapStaticAssets();

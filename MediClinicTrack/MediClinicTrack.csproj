@@ -18,4 +18,9 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- US07-2: word list read by Security/CommonPasswordValidator.cs -->
+    <EmbeddedResource Include="Security\common-passwords.txt" LogicalName="MediClinicTrack.Security.common-passwords.txt" />
+  </ItemGroup>
+
 </Project>
