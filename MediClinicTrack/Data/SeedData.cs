@@ -38,7 +38,8 @@ public static class SeedData
         var admin = await userManager.FindByEmailAsync(email);
         if (admin is null)
         {
-            admin = new ApplicationUser { UserName = email, Email = email, EmailConfirmed = true };
+            // The seeded password lives in user secrets, so the admin must replace it at first login.
+            admin = new ApplicationUser { UserName = email, Email = email, EmailConfirmed = true, MustChangePassword = true };
             ThrowIfFailed(await userManager.CreateAsync(admin, password), "create the seed Admin user");
         }
 
