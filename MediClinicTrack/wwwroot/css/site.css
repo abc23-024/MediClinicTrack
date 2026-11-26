@@ -153,3 +153,9 @@ a:focus-visible,
   color: var(--neutral);
   padding: 1rem 0;
 }
+
+/* ===== Validation messages: text cue, not colour alone ===== */
+.field-validation-error::before {
+  content: "Error: ";
+  font-weight: 600;
+}
