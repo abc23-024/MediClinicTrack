@@ -91,3 +91,6 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.Run();
+
+// Lets the test project (MediClinicTrack.Tests) start the app.
+public partial class Program { }
