@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MediClinicTrack.Data;
@@ -42,7 +43,21 @@ builder.Services.ConfigureApplicationCookie(o =>
     o.SlidingExpiration = true;
     o.Cookie.HttpOnly = true;
     o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+    // US06-2: a signed-in user who opens a page outside their role gets HTTP 403
+    // (shown as the "Access denied" page by UseStatusCodePagesWithReExecute below)
+    // instead of the default redirect to /Identity/Account/AccessDenied.
+    o.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        return Task.CompletedTask;
+    };
 });
+
+// US06: role policies from the permission matrix, and deny-by-default (Security/Policies.cs)
+builder.Services.AddAuthorization(o => o.AddAppPolicies());
+builder.Services.AddSingleton<IAccessDeniedLog, LoggerAccessDeniedLog>();   // US13 replaces this
+builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, AccessDeniedLoggingHandler>();
 
 // Password-reset links expire after 60 minutes
 builder.Services.Configure<DataProtectionTokenProviderOptions>(o =>
@@ -73,6 +88,9 @@ else
     app.UseHsts();
 }
 
+// Error responses with no body (403, 404) show a friendly page but keep their status code.
+app.UseStatusCodePagesWithReExecute("/Home/Status", "?code={0}");
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
@@ -80,7 +98,9 @@ app.UseAuthentication();
 app.UseMiddleware<MustChangePasswordMiddleware>();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+// CSS, JS and images are public; without this the deny-by-default policy would
+// leave the login page unstyled.
+app.MapStaticAssets().AllowAnonymous();
 
 app.MapControllerRoute(
     name: "default",

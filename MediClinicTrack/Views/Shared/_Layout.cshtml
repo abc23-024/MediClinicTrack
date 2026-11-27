@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using MediClinicTrack.Security
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
+    (string Policy, string Controller, string Label)[] NavAreas =
+    {
+        (Policies.PatientPortal, "PatientPortal", "My portal"),
+        (Policies.Reception, "Reception", "Reception"),
+        (Policies.Clinical, "Clinical", "Clinical"),
+        (Policies.Reports, "Reports", "Reports"),
+        (Policies.Administration, "Admin", "Administration"),
+    };
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -33,6 +46,17 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @* US06: links show only for roles that can use them. This is for tidiness;
+                           the [Authorize] policy on each controller is what actually protects it. *@
+                        @foreach (var (policy, controller, label) in NavAreas)
+                        {
+                            if ((await AuthorizationService.AuthorizeAsync(User, policy)).Succeeded)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="@controller" asp-action="Index">@label</a>
+                                </li>
+                            }
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

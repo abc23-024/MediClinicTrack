@@ -1,5 +1,6 @@
 #nullable disable
 
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MediClinicTrack.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

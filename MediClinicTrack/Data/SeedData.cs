@@ -1,3 +1,4 @@
+using MediClinicTrack.Security;
 using Microsoft.AspNetCore.Identity;
 
 namespace MediClinicTrack.Data;
@@ -5,7 +6,7 @@ namespace MediClinicTrack.Data;
 // Creates the roles and the first Admin account at start-up (US06 / US08).
 public static class SeedData
 {
-    public static readonly string[] Roles = { "Patient", "Receptionist", "Clinician", "Manager", "Admin" };
+    public static readonly string[] Roles = AppRoles.All;
 
     public static async Task InitialiseAsync(IServiceProvider services, IConfiguration configuration)
     {
@@ -22,7 +23,7 @@ public static class SeedData
             }
         }
 
-        if ((await userManager.GetUsersInRoleAsync("Admin")).Count > 0)
+        if ((await userManager.GetUsersInRoleAsync(AppRoles.Admin)).Count > 0)
             return;
 
         // Credentials come from user secrets only, never from code.
@@ -43,7 +44,7 @@ public static class SeedData
             ThrowIfFailed(await userManager.CreateAsync(admin, password), "create the seed Admin user");
         }
 
-        ThrowIfFailed(await userManager.AddToRoleAsync(admin, "Admin"), "add the seed user to the Admin role");
+        ThrowIfFailed(await userManager.AddToRoleAsync(admin, AppRoles.Admin), "add the seed user to the Admin role");
         logger.LogInformation("Seeded Admin user {Email}.", email);
     }
 
