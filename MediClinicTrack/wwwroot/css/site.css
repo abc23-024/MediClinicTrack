@@ -154,6 +154,7 @@ a:focus-visible,
   padding: 1rem 0;
 }
 
+HEAD
 /* ===== Auth pages (login, lockout) ===== */
 .auth-card {
   max-width: 32rem;
@@ -199,4 +200,10 @@ a:focus-visible,
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* ===== Validation messages: text cue, not colour alone ===== */
+.field-validation-error::before {
+  content: "Error: ";
+  font-weight: 600;
 }
