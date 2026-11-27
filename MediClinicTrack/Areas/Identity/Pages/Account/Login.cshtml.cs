@@ -65,15 +65,15 @@ namespace MediClinicTrack.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Enter your email address.")]
+            [EmailAddress(ErrorMessage = "Enter a valid email address.")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Enter your password.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -81,7 +81,7 @@ namespace MediClinicTrack.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Keep me signed in")]
             public bool RememberMe { get; set; }
         }
 

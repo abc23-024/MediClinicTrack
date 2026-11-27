@@ -1,0 +1,16 @@
+﻿@page
+@model LockoutModel
+@{
+    ViewData["Title"] = "Account locked";
+}
+
+<div class="auth-card" role="alert">
+    <h1>Account locked</h1>
+    <p>
+        Your account is locked because of too many failed login attempts.
+        Please try again in 15 minutes.
+    </p>
+    <p class="mb-0">
+        <a asp-page="./Login">Back to login</a>
+    </p>
+</div>
