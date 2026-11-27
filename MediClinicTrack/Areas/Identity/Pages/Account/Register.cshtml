@@ -7,58 +7,80 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8 col-lg-6">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <h2>Create your patient account</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <input asp-for="Input.FullName" class="form-control" autocomplete="name" aria-required="true"
+                       aria-describedby="Input_FullName-error" placeholder="Full name" />
+                <label asp-for="Input.FullName"></label>
+                <span asp-validation-for="Input.FullName" id="Input_FullName-error" class="text-danger" aria-live="polite"></span>
             </div>
+
             <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <select asp-for="Input.IdType" asp-items="Model.IdTypes" class="form-select" aria-required="true"
+                        aria-describedby="Input_IdType-error">
+                    <option value="">Choose an ID type</option>
+                </select>
+                <label asp-for="Input.IdType"></label>
+                <span asp-validation-for="Input.IdType" id="Input_IdType-error" class="text-danger" aria-live="polite"></span>
             </div>
+
             <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                <input asp-for="Input.IdNumber" class="form-control" autocomplete="off" aria-required="true"
+                       aria-describedby="Input_IdNumber-error" placeholder="ID number" />
+                <label asp-for="Input.IdNumber"></label>
+                <span asp-validation-for="Input.IdNumber" id="Input_IdNumber-error" class="text-danger" aria-live="polite"></span>
             </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.DateOfBirth" type="date" class="form-control" autocomplete="bday" aria-required="true"
+                       max="@DateTime.Today.ToString("yyyy-MM-dd")"
+                       aria-describedby="Input_DateOfBirth-error" placeholder="Date of birth" />
+                <label asp-for="Input.DateOfBirth"></label>
+                <span asp-validation-for="Input.DateOfBirth" id="Input_DateOfBirth-error" class="text-danger" aria-live="polite"></span>
+            </div>
+
+            <div class="form-floating mb-1">
+                <input asp-for="Input.MobileNumber" type="tel" class="form-control" autocomplete="tel"
+                       aria-describedby="mobile-help Input_MobileNumber-error" placeholder="Mobile number" />
+                <label asp-for="Input.MobileNumber"></label>
+                <span asp-validation-for="Input.MobileNumber" id="Input_MobileNumber-error" class="text-danger" aria-live="polite"></span>
+            </div>
+            <div id="mobile-help" class="form-text mb-3">Optional. For example 71234567.</div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true"
+                       aria-describedby="Input_Email-error" placeholder="name@example.com" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" id="Input_Email-error" class="text-danger" aria-live="polite"></span>
+            </div>
+
+            <div class="form-floating mb-1">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true"
+                       aria-describedby="password-help Input_Password-error" placeholder="Password" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" id="Input_Password-error" class="text-danger" aria-live="polite"></span>
+            </div>
+            <div id="password-help" class="form-text mb-3">Use at least 10 characters.</div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true"
+                       aria-describedby="Input_ConfirmPassword-error" placeholder="Confirm password" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" id="Input_ConfirmPassword-error" class="text-danger" aria-live="polite"></span>
+            </div>
+
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+            <p class="mt-3">
+                Already have an account?
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Log in</a>
+            </p>
         </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
     </div>
 </div>
 
